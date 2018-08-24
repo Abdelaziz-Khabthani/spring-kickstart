@@ -6,9 +6,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @SpringBootApplication
 @EnableConfigurationProperties
-public class SpringBootSampleApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootSampleApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 }
