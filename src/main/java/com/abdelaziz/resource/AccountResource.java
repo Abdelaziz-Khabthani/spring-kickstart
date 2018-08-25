@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +22,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
 
 import com.abdelaziz.annotations.Loggable;
-import com.abdelaziz.config.JWTConfigurer;
 import com.abdelaziz.consts.ApplicationLayer;
 import com.abdelaziz.consts.SecurityConsts;
 import com.abdelaziz.dto.AuthenticationDto;
@@ -41,8 +38,8 @@ import com.abdelaziz.exception.InternalServerErrorException;
 import com.abdelaziz.exception.InvalidPasswordException;
 import com.abdelaziz.exception.LoginAlreadyUsedException;
 import com.abdelaziz.exception.UserNotFoundException;
+import com.abdelaziz.service.TokenProviderService;
 import com.abdelaziz.service.UserService;
-import com.abdelaziz.service.impl.TokenProviderServiceImpl;
 import com.abdelaziz.util.SecurityUtil;
 
 @Loggable(layer = ApplicationLayer.RESOURCE_LAYER)
@@ -56,7 +53,7 @@ public class AccountResource extends ApiRootPath{
 	private SecurityUtil securityUtil;
 	
 	@Autowired
-    private TokenProviderServiceImpl tokenProvider;
+    private TokenProviderService tokenProvider;
 
 	@Autowired
     private AuthenticationManager authenticationManager;
@@ -102,8 +99,7 @@ public class AccountResource extends ApiRootPath{
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
         Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        boolean rememberMe = (loginDto.getRememberMe() == null) ? false : loginDto.getRememberMe();
-        JwtTokenDto jwtTokenDto = tokenProvider.createToken(authentication, rememberMe);
+        JwtTokenDto jwtTokenDto = tokenProvider.createToken(authentication);
         return jwtTokenDto;
     }
     
@@ -164,13 +160,13 @@ public class AccountResource extends ApiRootPath{
     }
     
     @PostMapping(path = "/account/reset-password/init")
-    public ResponseEntity<Void> requestPasswordReset(@RequestBody PasswordResetDto passwordResetDto) throws MessagingException {
+    public ResponseEntity<Void> requestPasswordReset(@Valid @RequestBody PasswordResetDto passwordResetDto) throws MessagingException {
     	userService.requestPasswordReset(passwordResetDto.getEmail()).orElseThrow(EmailNotFoundException::new);
     	return ResponseEntity.noContent().build();
     }
     
     @PostMapping(path = "/account/reset-password/finish")
-    public ResponseEntity<Void> finishPasswordReset(@RequestBody KeyAndPasswordDto keyAndPasswordDto) {
+    public ResponseEntity<Void> finishPasswordReset(@Valid @RequestBody KeyAndPasswordDto keyAndPasswordDto) {
         if (!securityUtil.checkPasswordLength(keyAndPasswordDto.getNewPassword())) {
             throw new InvalidPasswordException();
         }

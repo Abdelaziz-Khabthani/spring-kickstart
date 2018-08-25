@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TagDto {
 
-	@NotBlank(message = "{TagDto.Notlabel.NotBlank}")
+	@NotBlank
 	private String label;
 }

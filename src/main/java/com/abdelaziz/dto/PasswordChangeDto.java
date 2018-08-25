@@ -1,5 +1,7 @@
 package com.abdelaziz.dto;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PasswordChangeDto {
+	@NotNull
     private String currentPassword;
-    private String newPassword;
+	@NotNull
+	private String newPassword;
 }

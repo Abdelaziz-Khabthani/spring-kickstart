@@ -5,13 +5,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.abdelaziz.service.impl.TokenProviderServiceImpl;
+import com.abdelaziz.service.TokenProviderService;
 
 public class JWTConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-	private TokenProviderServiceImpl tokenProvider;
+	private TokenProviderService tokenProvider;
 
-	public JWTConfigurer(TokenProviderServiceImpl tokenProvider) {
+	public JWTConfigurer(TokenProviderService tokenProvider) {
 		this.tokenProvider = tokenProvider;
 	}
 

@@ -17,13 +17,13 @@ public class AuthorDto {
 
 	private Long id;
 
-	@NotBlank(message = "{AuthorDto.name.NotBlank}")
+	@NotBlank
 	private String name;
 
-	@NotBlank(message = "{AuthorDto.description.NotBlank}")
+	@NotBlank
 	private String description;
 
-	@Past(message = "{AuthorDto.dateOfBirth.Past}")
-	@NotNull(message = "{AuthorDto.dateOfBirth.NotNull}")
+	@Past
+	@NotNull
 	private Date dateOfBirth;
 }

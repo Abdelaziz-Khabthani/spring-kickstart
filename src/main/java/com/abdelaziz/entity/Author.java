@@ -28,21 +28,21 @@ public class Author {
 	@Id
 	private Long id;
 
-	@NotBlank(message = "{Author.name.NotBlank}")
+	@NotBlank
 	private String name;
 
-	@NotBlank(message = "{Author.description.NotBlank}")
+	@NotBlank
 	private String description;
 
-	@Past(message = "{Author.dateOfBirth.Past}")
-	@NotNull(message = "{Author.dateOfBirth.NotNull}")
+	@Past
+	@NotNull
 	private LocalDateTime dateOfBirth;
 
 	@Enumerated(EnumType.STRING)
-	@NotNull(message = "{Author.countryOfBirth.NotNull}")
+	@NotNull
 	private CountryCode countryOfBirth;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
+	@OneToMany
 	private List<Quote> quotes;
 
 	public Author(@NotBlank String name, @NotBlank String description, @Past @NotNull LocalDateTime dateOfBirth, @NotNull CountryCode countryOfBirth) {

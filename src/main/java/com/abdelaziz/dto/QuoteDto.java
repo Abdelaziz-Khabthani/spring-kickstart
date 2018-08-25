@@ -13,6 +13,6 @@ public class QuoteDto {
 
 	private Long id;
 
-	@NotBlank(message = "{QuoteDto.content.NotBlank}")
+	@NotBlank
 	private String content;
 }

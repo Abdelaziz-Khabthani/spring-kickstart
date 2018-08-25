@@ -27,6 +27,7 @@ import com.abdelaziz.annotations.Loggable;
 import com.abdelaziz.consts.ApplicationLayer;
 import com.abdelaziz.consts.SecurityConsts;
 import com.abdelaziz.dto.UserDto;
+import com.abdelaziz.dto.UserUpdateDto;
 import com.abdelaziz.exception.EmailAlreadyUsedException;
 import com.abdelaziz.exception.InternalServerErrorException;
 import com.abdelaziz.exception.LoginAlreadyUsedException;
@@ -43,12 +44,6 @@ public class UserResource extends ApiRootPath {
 
 	@Autowired
 	private PaginationUtil paginationUtil;
-
-	@PostMapping("/hello")
-	@Secured(SecurityConsts.ROLE_ADMIN)
-	public String hello() {
-		return "hello";
-	}
 	
 	@PostMapping("/users")
 	@Secured(SecurityConsts.ROLE_ADMIN)
@@ -59,7 +54,7 @@ public class UserResource extends ApiRootPath {
 			throw new EmailAlreadyUsedException();
 		} else {
 			UserDto newUser = userService.createUser(userDTO);
-			UriComponents uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newUser.getId());
+			UriComponents uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{login}").buildAndExpand(newUser.getLogin());
 			return ResponseEntity.created(uri.toUri()).build();
 		}
 	}
@@ -67,6 +62,10 @@ public class UserResource extends ApiRootPath {
 	@PutMapping("/users")
 	@Secured(SecurityConsts.ROLE_ADMIN)
 	public ResponseEntity<Void> updateUser(@Valid @RequestBody UserDto userDto) {
+		if (userDto.getId() != null) {
+			throw new UserNotFoundException("ID cannot be null");
+		}
+		
 		Optional<UserDto> existingUser = userService.getUserById(userDto.getId());
 
 		if (!existingUser.isPresent()) {

@@ -12,6 +12,6 @@ public interface TokenProviderService {
 
 	public Boolean validateToken(String authToken);
 
-	public JwtTokenDto createToken(Authentication authentication, Boolean rememberMe);
+	public JwtTokenDto createToken(Authentication authentication);
 
 }

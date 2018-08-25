@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -15,7 +16,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UserDto {
+public class UserUpdateDto {
+	@NotNull
 	private Long id;
 
 	@NotBlank
@@ -35,10 +37,6 @@ public class UserDto {
 	@Email
 	@Size(min = 5, max = 254)
 	private String email;
-
-	private Instant createdDate;
-
-	private boolean activated = false;
 
 	private Set<String> authorities;
 }

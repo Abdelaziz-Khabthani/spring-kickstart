@@ -2,7 +2,6 @@ package com.abdelaziz.util;
 
 import org.springframework.stereotype.Component;
 
-import com.abdelaziz.annotations.Loggable;
 import com.abdelaziz.consts.ApplicationLayer;
 
 @Component

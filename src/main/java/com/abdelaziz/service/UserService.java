@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.abdelaziz.dto.UserDto;
+import com.abdelaziz.dto.UserUpdateDto;
 
 public interface UserService {
 	public Optional<UserDto> activateRegistration(String key);

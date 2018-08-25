@@ -17,7 +17,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
-import com.abdelaziz.service.impl.TokenProviderServiceImpl;
+import com.abdelaziz.service.TokenProviderService;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserDetailsService userDetailsService;
 	
 	@Autowired
-	private TokenProviderServiceImpl tokenProvider;
+	private TokenProviderService tokenProvider;
 	
 	@Autowired
 	private CorsFilter corsFilter;

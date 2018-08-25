@@ -16,6 +16,4 @@ public class LoginDto {
 	@NotNull
 	@Size(min = SecurityConsts.PASSWORD_MIN_LENGTH, max = SecurityConsts.PASSWORD_MAX_LENGTH)
 	private String password;
-
-	private Boolean rememberMe;
 }

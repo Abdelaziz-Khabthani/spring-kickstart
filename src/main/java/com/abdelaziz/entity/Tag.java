@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class Tag {
 	
 	@Id
-	@NotBlank (message = "{Tag.Notlabel.NotBlank}")
+	@NotBlank
 	private String label;
 	
 	@ManyToMany(fetch = FetchType.LAZY)

@@ -14,13 +14,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.abdelaziz.consts.SecurityConsts;
-import com.abdelaziz.service.impl.TokenProviderServiceImpl;
+import com.abdelaziz.service.TokenProviderService;
 
 public class JWTFilter extends GenericFilterBean {
 
-	private TokenProviderServiceImpl tokenProvider;
+	private TokenProviderService tokenProvider;
 
-	public JWTFilter(TokenProviderServiceImpl tokenProvider) {
+	public JWTFilter(TokenProviderService tokenProvider) {
 		this.tokenProvider = tokenProvider;
 	}
 

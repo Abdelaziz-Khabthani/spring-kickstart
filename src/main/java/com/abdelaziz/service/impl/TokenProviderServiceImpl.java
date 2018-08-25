@@ -49,26 +49,18 @@ public class TokenProviderServiceImpl implements TokenProviderService{
 
 	private long tokenValidityInMilliseconds;
 
-	private long tokenValidityInMillisecondsForRememberMe;
-
 	@PostConstruct
 	public void init() {
 		this.secretKey = encoder.encodeToString(secret.getBytes(StandardCharsets.UTF_8));
 		this.tokenValidityInMilliseconds = 1000 * tokenValidityInSeconds;
-		this.tokenValidityInMillisecondsForRememberMe = 1000 * tokenValidityInSecondsForRememberMe;
 	}
 
 	@Override
-	public JwtTokenDto createToken(Authentication authentication, Boolean rememberMe) {
+	public JwtTokenDto createToken(Authentication authentication) {
 		String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
 
 		long now = (new Date()).getTime();
-		Date validity;
-		if (rememberMe) {
-			validity = new Date(now + this.tokenValidityInMillisecondsForRememberMe);
-		} else {
-			validity = new Date(now + this.tokenValidityInMilliseconds);
-		}
+		Date validity = new Date(now + this.tokenValidityInMilliseconds);
 
 		String token = Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authorities).signWith(SignatureAlgorithm.HS512, secretKey).setExpiration(validity).compact();
 		return new JwtTokenDto(token, validity);
@@ -77,7 +69,7 @@ public class TokenProviderServiceImpl implements TokenProviderService{
 	@Override
 	public JwtTokenDto refreshToken(String token) {
 		Authentication authentication = this.getAuthentication(token);
-		return this.createToken(authentication, Boolean.FALSE);
+		return this.createToken(authentication);
 	}
 	
 	@Override

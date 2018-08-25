@@ -28,14 +28,14 @@ public class Quote {
 	@Id
 	private Long id;
 
-	@NotBlank(message = "{Quote.content.NotBlank}")
+	@NotBlank
 	private String content;
 
 	@CreatedDate
 	@Setter(AccessLevel.NONE)
 	private LocalDateTime creationDate;
 
-	@NotNull(message = "{Quote.author.NotNull}")
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Author author;
 
