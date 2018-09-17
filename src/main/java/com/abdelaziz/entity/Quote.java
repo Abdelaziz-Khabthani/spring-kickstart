@@ -1,8 +1,9 @@
 package com.abdelaziz.entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -36,14 +37,16 @@ public class Quote {
 	private LocalDateTime creationDate;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Author author;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "quotes")
-	private List<Tag> tags;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	private Set<Tag> tags;
 
-	public Quote(@NotBlank String content) {
-		super();
+	public Quote(@NotBlank String content, @NotNull Author author, Set<Tag> tags) {
 		this.content = content;
+		this.author = author;
+		this.tags = tags;
 	}
+
 }

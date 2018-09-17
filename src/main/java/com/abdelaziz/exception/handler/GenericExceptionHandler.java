@@ -25,6 +25,7 @@ import com.abdelaziz.exception.EmailAlreadyUsedException;
 import com.abdelaziz.exception.EmailNotFoundException;
 import com.abdelaziz.exception.InvalidPasswordException;
 import com.abdelaziz.exception.LoginAlreadyUsedException;
+import com.abdelaziz.exception.QuoteNotFoundException;
 import com.abdelaziz.exception.UserNotActivatedException;
 import com.abdelaziz.exception.UserNotFoundException;
 import com.abdelaziz.util.LocalsUtil;
@@ -89,6 +90,11 @@ public class GenericExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(UserNotFoundException.class)
 	public ResponseEntity<ExceptionDto> handleUserNotFoundException(Exception ex, WebRequest request) {
 		return this.buildExceptionDtoRespoonseEntity(HttpStatus.NOT_FOUND, localsUtil.getSimpleLocalizedMessage("http.error.user-not-found"), ex);
+	}
+	
+	@ExceptionHandler(QuoteNotFoundException.class)
+	public ResponseEntity<ExceptionDto> handleQuoteNotFoundException(Exception ex, WebRequest request) {
+		return this.buildExceptionDtoRespoonseEntity(HttpStatus.NOT_FOUND, localsUtil.getSimpleLocalizedMessage("http.error.quote-not-found"), ex);
 	}
 	
 	@ExceptionHandler(AccessDeniedException.class)

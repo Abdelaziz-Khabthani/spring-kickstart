@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -41,9 +40,6 @@ public class Author {
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private CountryCode countryOfBirth;
-
-	@OneToMany
-	private List<Quote> quotes;
 
 	public Author(@NotBlank String name, @NotBlank String description, @Past @NotNull LocalDateTime dateOfBirth, @NotNull CountryCode countryOfBirth) {
 		super();

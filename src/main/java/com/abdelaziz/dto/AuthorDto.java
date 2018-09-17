@@ -6,6 +6,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import com.neovisionaries.i18n.CountryCode;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,4 +28,7 @@ public class AuthorDto {
 	@Past
 	@NotNull
 	private Date dateOfBirth;
+	
+	@NotNull
+	private CountryCode countryOfBirth;
 }

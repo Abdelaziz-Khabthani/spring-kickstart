@@ -1,6 +1,10 @@
 package com.abdelaziz.dto;
 
+import java.time.LocalDateTime;
+import java.util.Set;
+
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,4 +19,11 @@ public class QuoteDto {
 
 	@NotBlank
 	private String content;
+	
+	private LocalDateTime creationDate;
+	
+	@NotEmpty
+	private Set<String> tags;
+	
+	private AuthorDto author;
 }

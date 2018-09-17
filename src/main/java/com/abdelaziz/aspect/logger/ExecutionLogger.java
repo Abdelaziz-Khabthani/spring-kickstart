@@ -27,11 +27,7 @@ public class ExecutionLogger {
 	@Around("execution(* (@com.abdelaziz.annotations.Loggable *).*(..))")
 	private Object genericLogging(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		if (!LOGGER.isTraceEnabled()) {
-			try {
-				return proceedingJoinPoint.proceed();
-			} catch (Throwable throwable) {
-				LOGGER.error("[ERROR] ", throwable);
-			}
+			return proceedingJoinPoint.proceed();
 		}
 
 		String logMessage = null;
@@ -44,10 +40,6 @@ public class ExecutionLogger {
 			logMessage = loggerUtil.buildLogMesssage(proceedingJoinPoint.getTarget().getClass().getName(), proceedingJoinPoint.getSignature().getName(), proceedingJoinPoint.getArgs(), loggable.layer());
 		} catch (Throwable throwable) {
 			LOGGER.error("[ASPECT ERROR] Something went wrong when creating log message", throwable);
-			return proceedingJoinPoint.proceed();
-		}
-
-		if (logMessage == null) {
 			return proceedingJoinPoint.proceed();
 		}
 
@@ -71,19 +63,14 @@ public class ExecutionLogger {
 	@Around("execution(* org.springframework.data.repository.Repository+.*(..))")
 	private Object repositoryLayerLogging(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		if (!LOGGER.isTraceEnabled()) {
-			try {
-				return proceedingJoinPoint.proceed();
-			} catch (Throwable throwable) {
-				LOGGER.error("[ERROR] ", throwable);
-			}
+			return proceedingJoinPoint.proceed();
 		}
 
+		boolean isLoggable = false;
+		String repositoryInterfaceName = null;
 		String logMessage = null;
 		try {
 			// Check if there is an interface that has the @Loggable annotation
-			boolean isLoggable = false;
-			String repositoryInterfaceName = null;
-
 			for (Class<?> currentInterface : proceedingJoinPoint.getTarget().getClass().getInterfaces()) {
 				if (currentInterface.getAnnotationsByType(Loggable.class).length != 0) {
 					isLoggable = true;
@@ -91,21 +78,22 @@ public class ExecutionLogger {
 					break;
 				}
 			}
-			if (!isLoggable) {
-				return proceedingJoinPoint.proceed();
-			}
-
-			logMessage = loggerUtil.buildLogMesssage(repositoryInterfaceName, proceedingJoinPoint.getSignature().getName(), proceedingJoinPoint.getArgs(), ApplicationLayer.REPOSITORY_LAYER);
-
 		} catch (Throwable throwable) {
-			LOGGER.error("[ASPECT ERROR] Something went wrong when creating log message or deciding if a Repository class is Loggable", throwable);
+			LOGGER.error("[ASPECT ERROR] Something went wrong when deciding if a Repository class is Loggable", throwable);
 			return proceedingJoinPoint.proceed();
 		}
 
-		if (logMessage == null) {
+		if (!isLoggable) {
 			return proceedingJoinPoint.proceed();
 		}
 
+		try {
+			logMessage = loggerUtil.buildLogMesssage(repositoryInterfaceName, proceedingJoinPoint.getSignature().getName(), proceedingJoinPoint.getArgs(), ApplicationLayer.REPOSITORY_LAYER);
+		} catch (Exception e) {
+			LOGGER.error("[ASPECT ERROR] Something went wrong when creating log message", e);
+			return proceedingJoinPoint.proceed();	
+		}
+		
 		try {
 			LOGGER.trace("BEGIN: " + logMessage.toString());
 			StopWatch stopWatch = new StopWatch();

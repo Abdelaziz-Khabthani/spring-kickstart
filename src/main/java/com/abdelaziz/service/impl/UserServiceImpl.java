@@ -23,7 +23,6 @@ import com.abdelaziz.annotations.Loggable;
 import com.abdelaziz.consts.ApplicationLayer;
 import com.abdelaziz.consts.SecurityConsts;
 import com.abdelaziz.dto.UserDto;
-import com.abdelaziz.dto.UserUpdateDto;
 import com.abdelaziz.entity.Authority;
 import com.abdelaziz.entity.User;
 import com.abdelaziz.exception.InvalidPasswordException;
@@ -174,10 +173,10 @@ public class UserServiceImpl implements UserService {
                     Set<Authority> managedAuthorities = user.getAuthorities();
                     managedAuthorities.clear();
                     userDTO.getAuthorities().stream()
-                    .map(authorityRepository::findById)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .forEach(managedAuthorities::add);
+	                    .map(authorityRepository::findById)
+	                    .filter(Optional::isPresent)
+	                    .map(Optional::get)
+	                    .forEach(managedAuthorities::add);
                 }
                 return modelMapper.map(user, UserDto.class);
             });

@@ -27,7 +27,6 @@ import com.abdelaziz.annotations.Loggable;
 import com.abdelaziz.consts.ApplicationLayer;
 import com.abdelaziz.consts.SecurityConsts;
 import com.abdelaziz.dto.UserDto;
-import com.abdelaziz.dto.UserUpdateDto;
 import com.abdelaziz.exception.EmailAlreadyUsedException;
 import com.abdelaziz.exception.InternalServerErrorException;
 import com.abdelaziz.exception.LoginAlreadyUsedException;
